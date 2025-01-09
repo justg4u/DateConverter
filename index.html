@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>English to Nepali Date Converter</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body {
+            background-color: #f8f9fa;
+        }
+        .container {
+            max-width: 800px;
+            margin: 50px auto;
+            background: #ffffff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+        .header {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2 class="header">English to Nepali Date Converter</h2>
+
+        <form id="convertForm">
+            <div class="mb-3">
+                <label for="englishDate" class="form-label">Enter English Date</label>
+                <input type="date" id="englishDate" name="englishDate" class="form-control">
+            </div>
+            <button type="submit" class="btn btn-primary w-100">Convert to Nepali Date</button>
+        </form>
+
+        <h3 class="header mt-5">Converted Dates</h3>
+        <table class="table table-bordered" id="dateTable">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>English Date</th>
+                    <th>Nepali Date</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                <!-- Rows will be added dynamically -->
+            </tbody>
+        </table>
+    </div>
+
+    <script>
+        let nextId = 1;
+        const dateRecords = [];
+
+        document.getElementById('convertForm').addEventListener('submit', (event) => {
+            event.preventDefault();
+
+            const englishDate = document.getElementById('englishDate').value;
+            if (!englishDate) {
+                alert('Please select an English date.');
+                return;
+            }
+
+            // Simulate Nepali date conversion (Replace with actual conversion logic if available)
+            const nepaliDate = `Nepali Date for ${englishDate}`;
+
+            const record = { id: nextId++, englishDate, nepaliDate };
+            dateRecords.push(record);
+
+            addToTable(record);
+        });
+
+        function addToTable(record) {
+            const tableBody = document.querySelector('#dateTable tbody');
+            const row = document.createElement('tr');
+
+            row.innerHTML = `
+                <td>${record.id}</td>
+                <td>${record.englishDate}</td>
+                <td>${record.nepaliDate}</td>
+                <td>
+                    <button class="btn btn-warning btn-sm" onclick="editRecord(${record.id})">Edit</button>
+                    <button class="btn btn-danger btn-sm" onclick="deleteRecord(${record.id})">Delete</button>
+                </td>
+            `;
+
+            tableBody.appendChild(row);
+        }
+
+        function editRecord(id) {
+            const record = dateRecords.find(r => r.id === id);
+            if (!record) return;
+
+            const newEnglishDate = prompt('Edit English Date:', record.englishDate);
+            if (newEnglishDate) {
+                record.englishDate = newEnglishDate;
+                record.nepaliDate = `Nepali Date for ${newEnglishDate}`; // Update Nepali date accordingly
+                updateTable();
+            }
+        }
+
+        function deleteRecord(id) {
+            const index = dateRecords.findIndex(r => r.id === id);
+            if (index > -1) {
+                dateRecords.splice(index, 1);
+                updateTable();
+            }
+        }
+
+        function updateTable() {
+            const tableBody = document.querySelector('#dateTable tbody');
+            tableBody.innerHTML = '';
+            dateRecords.forEach(addToTable);
+        }
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
