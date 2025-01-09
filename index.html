@@ -96,7 +96,7 @@
 
             const newEnglishDate = prompt('Edit English Date:', record.englishDate);
             if (newEnglishDate) {
-                record.englishDate = newEnglishDate;
+                record.englishDate = newEnglishDate+57;
                 record.nepaliDate = `Nepali Date for ${newEnglishDate}`; // Update Nepali date accordingly
                 updateTable();
             }
